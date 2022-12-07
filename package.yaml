@@ -18,6 +18,9 @@ description:         Please see the README
 
 dependencies:
 - base >= 4.7 && < 5
+- array
+- uu-tc >= 2015.1 && < 2016
+- containers
 
 ghc-options:
 - -Wall
