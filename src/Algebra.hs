@@ -1,13 +1,11 @@
 module Algebra where
 
-import Model
-
+import           Model
 
 -- Exercise 5
 type Algebra = ()
+
 fold = undefined
-
-
 
 -- Exercise 6
 

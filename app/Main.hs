@@ -1,10 +1,10 @@
 module Main where
 
-import Algebra
-import Model
-import Interpreter
-import Lexer
-import Parser
+import           Algebra
+import           Interpreter
+import           Lexer
+import           Model
+import           Parser
 
 -- Exercise 11
 interactive :: Environment -> ArrowState -> IO ()
@@ -18,17 +18,16 @@ batch = undefined
 -- and write a new main function.
 main :: IO ()
 main = do
-  chars <- readFile "examples/Add.arrow"
-  putStrLn "Input program:"
-  putStrLn ""
-  putStrLn chars
-  putStrLn ""
-  let tokens = alexScanTokens chars
-  putStrLn "Tokens:"
-  putStrLn ""
-  print tokens
-  let arr = parser tokens
-  putStrLn "Parsed program:"
-  putStrLn ""
-  print arr
-
+    chars <- readFile "examples/Add.arrow"
+    putStrLn "Input program:"
+    putStrLn ""
+    putStrLn chars
+    putStrLn ""
+    let tokens = alexScanTokens chars
+    putStrLn "Tokens:"
+    putStrLn ""
+    print tokens
+    let arr = parser tokens
+    putStrLn "Parsed program:"
+    putStrLn ""
+    print arr
