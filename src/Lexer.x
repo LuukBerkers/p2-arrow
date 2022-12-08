@@ -1,5 +1,7 @@
 {
-module Lexer where
+module Lexer
+    ( alexScanTokens
+    ) where
 
 import Model
 }
