@@ -6,7 +6,7 @@ import           Data.Char                      ( isSpace )
 import           Data.Map                       ( Map )
 import qualified Data.Map                      as L
 import           Lexer
-import           Model
+import qualified Model
 import           ParseLib.Abstract
 import           Parser
 import           Prelude                 hiding ( (<$)
