@@ -28,5 +28,36 @@ data Token
     deriving (Show)
 
 -- Exercise 2
-data Program = Program
+newtype Program = Program [Rule]
+    deriving (Show)
+
+data Rule = Rule String [Cmd]
     deriving Show
+
+data Cmd
+    = Go
+    | Take
+    | Mark
+    | Not
+    | Turn Dir
+    | Case Dir [Alt]
+    | Ident String
+    deriving (Show)
+
+data Dir
+    = Le
+    | Ri
+    | Fr
+    deriving (Show)
+
+data Alt = Alt Pat [Cmd]
+    deriving Show
+
+data Pat
+    = Empty
+    | Lambda
+    | Debris
+    | Asteroid
+    | Boundary
+    | Underscore
+    deriving (Show)
