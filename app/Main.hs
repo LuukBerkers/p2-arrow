@@ -31,3 +31,7 @@ main = do
     putStrLn "Parsed program:"
     putStrLn ""
     print arr
+
+prog :: FilePath -> IO Program
+prog fp = parser . alexScanTokens <$> readFile fp
+    
