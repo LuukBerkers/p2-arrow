@@ -35,6 +35,10 @@ data Token
     deriving (Show)
 
 -- Exercise 2
+
+{- | The lists in these datatypes are all in reverse, to make the parser more
+ space efficient
+-}
 newtype Program = Program [Rule]
     deriving (Show)
 
