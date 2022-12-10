@@ -1,5 +1,6 @@
 module Algebra where
 
+import           Data.Char                      ( toLower )
 import           Model
 
 -- Exercise 5
@@ -69,6 +70,82 @@ fold (tProgram, tRule, tGo, tTake, tMark, tNot, tTurn, tCase, tIdent, tLe, tRi, 
     fPat Underscore = tUnderscore
 
 -- Exercise 6
+noUndefinedRulesAlg
+    :: Algebra
+           Bool
+           ([String] -> ([String], Bool))
+           ([String] -> Bool)
+           ()
+           ([String] -> Bool)
+           ()
+noUndefinedRulesAlg =
+    ( tProgram
+    , tRule
+    , tGo
+    , tTake
+    , tMark
+    , tNot
+    , tTurn
+    , tCase
+    , tIdent
+    , tLe
+    , tRi
+    , tFr
+    , tAlt
+    , tEmpty
+    , tLambda
+    , tDebris
+    , tAsteroid
+    , tBoundary
+    , tUnderscore
+    )
+  where
+    tProgram    = undefined
+    tRule       = undefined
+    tGo         = undefined
+    tTake       = undefined
+    tMark       = undefined
+    tNot        = undefined
+    tTurn       = undefined
+    tCase       = undefined
+    tIdent      = undefined
+    tLe         = undefined
+    tRi         = undefined
+    tFr         = undefined
+    tAlt        = undefined
+    tEmpty      = undefined
+    tLambda     = undefined
+    tDebris     = undefined
+    tAsteroid   = undefined
+    tBoundary   = undefined
+    tUnderscore = undefined
+
+startRuleExistsAlg :: Algebra Bool Bool () () () ()
+startRuleExistsAlg =
+    ( tProgram
+    , tRule
+    , ()
+    , ()
+    , ()
+    , ()
+    , const ()
+    , const . const ()
+    , const ()
+    , ()
+    , ()
+    , ()
+    , const . const ()
+    , ()
+    , ()
+    , ()
+    , ()
+    , ()
+    , ()
+    )
+  where
+    tProgram = or
+    tRule name _ | map toLower name == "start" = True
+                 | otherwise                   = False
 
 checkProgram :: Program -> Bool
 checkProgram = undefined
