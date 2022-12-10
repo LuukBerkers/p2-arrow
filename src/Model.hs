@@ -1,9 +1,16 @@
-module Model where
+module Model
+    ( Token(..)
+    , Program(..)
+    , Rule(..)
+    , Cmd(..)
+    , Dir(..)
+    , Alt(..)
+    , Pat(..)
+    ) where
 
 -- Exercise 1
 data Token
-    = Token
-    | TArrow
+    = TArrow
     | TDot
     | TComma
     | TGo

@@ -1,5 +1,7 @@
 {
-module Parser where
+module Parser
+    ( parser
+    ) where
 
 import Model
 }
@@ -8,11 +10,26 @@ import Model
 %tokentype { Token }
 
 %token
-  x { Token }
+  "->"      { TArrow }
+  '.'       { TDot }
+  ','       { TComma }
+  go        { TGo }
+  ident     { TIdent $$ }
 
 %%
 
-Program : { Program }
+Program : Rules  { Program $1 }
+
+Rules : {- empty -}     { [] }
+      | Rules Rule      { $2 : $1 }
+
+Rule : ident "->" Cmds '.'  { Rule $1 $3 }
+
+Cmds : {- empty -}      { [] }
+     | Cmd              { [$1] }
+     | Cmds ',' Cmd     { $3 : $1 }
+
+Cmd : go    { Go }
 
 {
 
