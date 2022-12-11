@@ -192,4 +192,34 @@ completePatternsAlg =
     tAlt pat cmds = (pat, and cmds)
 
 checkProgram :: Program -> Bool
-checkProgram = undefined
+checkProgram pr =
+    noUndefinedRules && startRuleExists && noDoubleRules && completePatterns
+  where
+    noUndefinedRules = fold noUndefinedRulesAlg pr
+    startRuleExists  = fold startRuleExistsAlg pr
+    noDoubleRules    = fold noDoubleRulesAlg pr
+    completePatterns = fold completePatternsAlg pr
+
+checkWithFeedback :: Program -> IO ()
+checkWithFeedback pr = putStrLn $ maybe passed feedback $ findProblem pr
+  where
+    passed = "No problems!"
+    feedback UndefinedRules = "A rule is used but never defined"
+    feedback NoStartRule    = "There is no rule named `start`"
+    feedback DoubleRules    = "Some rules are defined multiple times"
+    feedback IncompletePatterns =
+        "Some case expressions have incomplete patterns"
+
+data Problem = UndefinedRules | NoStartRule | DoubleRules | IncompletePatterns
+
+findProblem :: Program -> Maybe Problem
+findProblem pr | undefinedRules     = Just UndefinedRules
+               | noStartRule        = Just NoStartRule
+               | doubleRules        = Just DoubleRules
+               | incompletePatterns = Just IncompletePatterns
+               | otherwise          = Nothing
+  where
+    undefinedRules     = not $ fold noUndefinedRulesAlg pr
+    noStartRule        = not $ fold startRuleExistsAlg pr
+    doubleRules        = not $ fold noDoubleRulesAlg pr
+    incompletePatterns = not $ fold completePatternsAlg pr
