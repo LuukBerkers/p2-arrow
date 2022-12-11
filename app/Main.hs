@@ -34,4 +34,3 @@ main = do
 
 prog :: FilePath -> IO Program
 prog fp = parser . alexScanTokens <$> readFile fp
-    

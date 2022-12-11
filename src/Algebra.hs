@@ -70,15 +70,96 @@ fold (tProgram, tRule, tGo, tTake, tMark, tNot, tTurn, tCase, tIdent, tLe, tRi, 
     fPat Underscore = tUnderscore
 
 -- Exercise 6
-noUndefinedRulesAlg
-    :: Algebra
-           Bool
-           ([String] -> ([String], Bool))
-           ([String] -> Bool)
-           ()
-           ([String] -> Bool)
-           ()
+noUndefinedRulesAlg :: Algebra Bool (String, [String]) [String] () [String] ()
 noUndefinedRulesAlg =
+    ( tProgram
+    , tRule
+    , []
+    , []
+    , []
+    , []
+    , const []
+    , tCase
+    , tIdent
+    , ()
+    , ()
+    , ()
+    , tAlt
+    , ()
+    , ()
+    , ()
+    , ()
+    , ()
+    , ()
+    )
+  where
+    tProgram rs = and [ used `elem` rules | used <- useds ]
+      where
+        (rules, usedss) = unzip rs
+        useds           = concat usedss
+    tRule name useds = (name, concat useds)
+    tCase _ useds = concat useds
+    tIdent name = [name]
+    tAlt _ useds = concat useds
+
+startRuleExistsAlg :: Algebra Bool Bool () () () ()
+startRuleExistsAlg =
+    ( tProgram
+    , tRule
+    , ()
+    , ()
+    , ()
+    , ()
+    , const ()
+    , const . const ()
+    , const ()
+    , ()
+    , ()
+    , ()
+    , const . const ()
+    , ()
+    , ()
+    , ()
+    , ()
+    , ()
+    , ()
+    )
+  where
+    tProgram = or
+    tRule name _ | map toLower name == "start" = True
+                 | otherwise                   = False
+
+noDoubleRulesAlg :: Algebra Bool String () () () ()
+noDoubleRulesAlg =
+    ( tProgram
+    , tRule
+    , ()
+    , ()
+    , ()
+    , ()
+    , const ()
+    , const . const ()
+    , const ()
+    , ()
+    , ()
+    , ()
+    , const . const ()
+    , ()
+    , ()
+    , ()
+    , ()
+    , ()
+    , ()
+    )
+  where
+    tProgram = noDups
+      where
+        noDups []       = True
+        noDups (x : xs) = (x `notElem` xs) && noDups xs
+    tRule = const
+
+alg :: Algebra prog rule cmd dir alt pat
+alg =
     ( tProgram
     , tRule
     , tGo
@@ -119,33 +200,6 @@ noUndefinedRulesAlg =
     tAsteroid   = undefined
     tBoundary   = undefined
     tUnderscore = undefined
-
-startRuleExistsAlg :: Algebra Bool Bool () () () ()
-startRuleExistsAlg =
-    ( tProgram
-    , tRule
-    , ()
-    , ()
-    , ()
-    , ()
-    , const ()
-    , const . const ()
-    , const ()
-    , ()
-    , ()
-    , ()
-    , const . const ()
-    , ()
-    , ()
-    , ()
-    , ()
-    , ()
-    , ()
-    )
-  where
-    tProgram = or
-    tRule name _ | map toLower name == "start" = True
-                 | otherwise                   = False
 
 checkProgram :: Program -> Bool
 checkProgram = undefined
