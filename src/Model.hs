@@ -71,4 +71,4 @@ data Pat
     | Asteroid
     | Boundary
     | Underscore
-    deriving (Show)
+    deriving (Eq, Show)

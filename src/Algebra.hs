@@ -158,48 +158,38 @@ noDoubleRulesAlg =
         noDups (x : xs) = (x `notElem` xs) && noDups xs
     tRule = const
 
-alg :: Algebra prog rule cmd dir alt pat
-alg =
+completePatternsAlg :: Algebra Bool Bool Bool () (Pat, Bool) Pat
+completePatternsAlg =
     ( tProgram
     , tRule
-    , tGo
-    , tTake
-    , tMark
-    , tNot
-    , tTurn
+    , True
+    , True
+    , True
+    , True
+    , const True
     , tCase
-    , tIdent
-    , tLe
-    , tRi
-    , tFr
+    , const True
+    , ()
+    , ()
+    , ()
     , tAlt
-    , tEmpty
-    , tLambda
-    , tDebris
-    , tAsteroid
-    , tBoundary
-    , tUnderscore
+    , Empty
+    , Lambda
+    , Debris
+    , Asteroid
+    , Boundary
+    , Underscore
     )
   where
-    tProgram    = undefined
-    tRule       = undefined
-    tGo         = undefined
-    tTake       = undefined
-    tMark       = undefined
-    tNot        = undefined
-    tTurn       = undefined
-    tCase       = undefined
-    tIdent      = undefined
-    tLe         = undefined
-    tRi         = undefined
-    tFr         = undefined
-    tAlt        = undefined
-    tEmpty      = undefined
-    tLambda     = undefined
-    tDebris     = undefined
-    tAsteroid   = undefined
-    tBoundary   = undefined
-    tUnderscore = undefined
+    tProgram = and
+    tRule _ = and
+    tCase _ alts =
+        (  (Underscore `elem` pats)
+            || all (`elem` pats) [Empty, Lambda, Debris, Asteroid, Boundary]
+            )
+            && and bs
+        where (pats, bs) = unzip alts
+    tAlt pat cmds = (pat, and cmds)
 
 checkProgram :: Program -> Bool
 checkProgram = undefined
